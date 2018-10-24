@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package protoService;
+option go_package = "rtArchive/proto_service";
+
+import "proto_msg/msg.proto";
+
+service ArchiveService {
+    rpc Save(protoMsg.RoundTrip) returns(protoMsg.RoundTrip) {}
+    rpc Get(protoMsg.IDMessage) returns(protoMsg.RoundTrip) {}
+}
