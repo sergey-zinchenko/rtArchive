@@ -3,7 +3,7 @@ package storage
 import (
 	"database/sql"
 	_ "github.com/lib/pq"
-	"log"
+	"rtArchive/config"
 )
 
 type (
@@ -13,10 +13,11 @@ type (
 )
 
 func (dbs *DBS) Connect() (err error) {
-	//connStr := fmt.Sprintf("user=%s dbname=%s sslmode=verify-full", config.DBUserName, config.DBName)
-	//fmt.Println(connStr)
-	if dbs.pgSQL, err = sql.Open("postgres", ""); err != nil {
-		log.Fatal(err)
+	if dbs.pgSQL, err = sql.Open("postgres", config.PgSqlDSN); err != nil {
+		return err
+	}
+	if err = dbs.pgSQL.Ping(); err != nil {
+		return err
 	}
 	return nil
 }

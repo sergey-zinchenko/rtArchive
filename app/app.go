@@ -19,6 +19,7 @@ type (
 	}
 )
 
+//NewApp - make new app with dbs
 func NewApp() (a *App) {
 	a = new(App)
 	a.dbs = &storage.DBS{}
@@ -34,6 +35,7 @@ func (a *App) ConnectDB() error {
 }
 
 func (a *App) ConnectGRPC() {
+	log.Warn("connect to grpc")
 	lis, err := net.Listen(config.GRPCNetwork, config.GRPCPort)
 	if err != nil {
 		log.Fatal(err.Error())
