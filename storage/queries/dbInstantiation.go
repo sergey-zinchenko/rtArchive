@@ -1,6 +1,7 @@
 package queries
 
 const (
+	//CreateSchema- query to create sschema
 	CreateSchema = `CREATE SCHEMA IF NOT EXISTS rtArchive 
     AUTHORIZATION postgres;`
 
