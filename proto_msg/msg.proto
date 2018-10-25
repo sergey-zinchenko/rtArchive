@@ -18,7 +18,7 @@ message RoundTrip {
     string response = 6;
 }
 
-message IDMessage {
+message RoundtripID {
     int64 id = 1;
 }
 

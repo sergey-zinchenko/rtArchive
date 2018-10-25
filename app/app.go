@@ -47,6 +47,7 @@ func (a *App) ConnectGRPC() {
 	serv := rpc.ProcedureHandler{}
 	proto_service.RegisterArchiveServiceServer(s, &serv)
 	reflection.Register(s)
+	serv.Dbs(a.dbs)
 	a.setProcedureHandler(&serv)
 	if err := s.Serve(lis); err != nil {
 		log.Fatal(err.Error())

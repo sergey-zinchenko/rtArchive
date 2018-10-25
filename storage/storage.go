@@ -6,6 +6,7 @@ import (
 	"github.com/kataras/iris/core/errors"
 	_ "github.com/lib/pq"
 	"rtArchive/config"
+	"rtArchive/proto_msg"
 	"rtArchive/storage/queries"
 )
 
@@ -68,4 +69,16 @@ func (dbs *DBS) CheckTables() (err error) {
 		return err
 	}
 	return nil
+}
+
+func (dbs *DBS) GetRoundTrip(id int64) (*proto_msg.RoundTrip, error) {
+
+}
+
+func (dbs *DBS) SaveRoundTrip(in *proto_msg.RoundTrip) (*proto_msg.RoundTrip, error) {
+
+}
+
+func (dbs *DBS) AddResponse(id int64, response string) (*proto_msg.RoundTrip, error) {
+
 }
