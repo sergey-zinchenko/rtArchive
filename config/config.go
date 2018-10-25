@@ -13,10 +13,8 @@ var (
 	GRPCPort string
 	//GRPCNetwork - network for grpc
 	GRPCNetwork string
-	//DBName - database name
-	DBName string
-	//DBUserName - dbusername
-	DBUserName string
+	//PgSqlDSN - database name
+	PgSqlDSN string
 )
 
 const (
@@ -24,7 +22,7 @@ const (
 	devMode     = "development"
 	grpcPort    = "GRPCPORT"
 	grpcNetwork = "GRPCNETWORK"
-	dbname      = "DBNAME"
+	dbdsn       = "DBDSN"
 	dbusername  = "DBUSERNAME"
 )
 
@@ -58,12 +56,8 @@ func LoadEnvironment() {
 	if GRPCNetwork == "" {
 		log.Fatal("grpc network must be set")
 	}
-	DBName = os.Getenv(dbname)
-	if DBName == "" {
-		log.Fatal("db name must be set")
-	}
-	DBUserName = os.Getenv(dbusername)
-	if DBUserName == "" {
-		log.Fatal("db user must be set")
+	PgSqlDSN = os.Getenv(dbdsn)
+	if PgSqlDSN == "" {
+		log.Fatal("db dsn must be set")
 	}
 }

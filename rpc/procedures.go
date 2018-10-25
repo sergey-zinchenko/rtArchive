@@ -15,7 +15,7 @@ func (h *ProcedureHandler) Save(ctx context.Context, in *protoMsg.RoundTrip) (*p
 }
 
 func (h *ProcedureHandler) AddResponse(ctx context.Context, in *protoMsg.IDAndResponse) (*protoMsg.RoundTrip, error) {
-
+	return nil, nil
 }
 
 func (h *ProcedureHandler) Get(ctx context.Context, in *protoMsg.IDMessage) (*protoMsg.RoundTrip, error) {
