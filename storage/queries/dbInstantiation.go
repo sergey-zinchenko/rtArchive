@@ -44,6 +44,7 @@ const (
 	END;
 	$$ language 'plpgsql';`
 
+	//CreateUpdatedAtTrigger  - create trigger that run func before updated any row
 	CreateUpdatedAtTrigger = `
 	DO $$
 	BEGIN	
