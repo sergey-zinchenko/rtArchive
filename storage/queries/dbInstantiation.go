@@ -14,7 +14,7 @@ const (
 	END $$;
 	ALTER TYPE rtArchive.dialog_source
     OWNER TO postgres;`
-
+	//CreateTableRoundTrips - query to create table for roundtrips
 	CreateTableRoundTrips = `CREATE TABLE IF NOT EXISTS rtArchive.roundtrips
 	(
     id integer NOT NULL,
