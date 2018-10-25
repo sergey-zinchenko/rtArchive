@@ -4,7 +4,7 @@ const (
 	//CreateSchema- query to create sschema
 	CreateSchema = `CREATE SCHEMA IF NOT EXISTS rtArchive 
     AUTHORIZATION postgres;`
-
+	//CreateDialogSourceEnum - query to create enum fo dialog source platform name
 	CreateDialogSourceEnum = `
 	DO $$
 	BEGIN
