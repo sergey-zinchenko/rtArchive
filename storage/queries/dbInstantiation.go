@@ -14,6 +14,7 @@ const (
 	END $$;
 	ALTER TYPE rtArchive.dialog_source
     OWNER TO postgres;`
+
 	//CreateTableRoundTrips - query to create table for roundtrips
 	CreateTableRoundTrips = `CREATE TABLE IF NOT EXISTS rtArchive.roundtrips
 	(
@@ -34,6 +35,7 @@ const (
 	ALTER TABLE rtArchive.roundtrips
     OWNER to postgres;`
 
+	//CreateUpdatedAtFunction - create func to update timestamp column updated_at
 	CreateUpdatedAtFunction = `CREATE OR REPLACE FUNCTION update_created_at_column() 
 	RETURNS TRIGGER AS $$
 	BEGIN
