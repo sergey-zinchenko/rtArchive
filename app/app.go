@@ -31,6 +31,9 @@ func (a *App) ConnectDB() error {
 	if err != nil {
 		return err
 	}
+	if err := a.dbs.CheckTables(); err != nil {
+		return err
+	}
 	return nil
 }
 
