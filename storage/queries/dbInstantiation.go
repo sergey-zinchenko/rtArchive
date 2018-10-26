@@ -18,15 +18,14 @@ const (
 	//CreateTableRoundTrips - query to create table for roundtrips
 	CreateTableRoundTrips = `CREATE TABLE IF NOT EXISTS rtArchive.roundtrips
 	(
-    id integer NOT NULL,
+    id SERIAL PRIMARY KEY,
     source rtArchive.dialog_source NOT NULL,
     chat_id character varying NOT NULL,
     username character varying NOT NULL,
     request text,
     response text,
     created_at timestamp without time zone default current_timestamp,
-    updated_at timestamp without time zone,
-    PRIMARY KEY (id)
+    updated_at timestamp without time zone
 	)
 	WITH (
     OIDS = FALSE

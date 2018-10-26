@@ -8,6 +8,8 @@ message RoundTrip {
         telegram = 1;
         fb = 2;
         viber = 3;
+        whatsapp = 4;
+        vk = 5;
     }
 
     int64 id = 1;
