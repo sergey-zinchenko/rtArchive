@@ -16,7 +16,7 @@ func (h *ProcedureHandler) Dbs(dbs *storage.DBS) {
 	h.dbs = dbs
 }
 
-func (h *ProcedureHandler) Save(ctx context.Context, in *protoMsg.RoundTrip) (*protoMsg.RoundTrip, error) {
+func (h *ProcedureHandler) Save(ctx context.Context, in *protoMsg.RoundTripWithoutID) (*protoMsg.RoundTrip, error) {
 	rt, err := h.dbs.SaveRoundTrip(in)
 	if err != nil {
 		return nil, err

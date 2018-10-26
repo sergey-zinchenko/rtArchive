@@ -2,6 +2,22 @@ syntax = "proto3";
 package protoMsg;
 option go_package = "rtArchive/proto_msg";
 
+message RoundTripWithoutID {
+    enum Source {
+        undef = 0;
+        telegram = 1;
+        fb = 2;
+        viber = 3;
+        whatsapp = 4;
+        vk = 5;
+    }
+    Source source = 2;
+    string chatID = 3;
+    string userName = 4;
+    string request = 5;
+    string response = 6;
+}
+
 message RoundTrip {
     enum Source {
         undef = 0;
@@ -11,7 +27,6 @@ message RoundTrip {
         whatsapp = 4;
         vk = 5;
     }
-
     int64 id = 1;
     Source source = 2;
     string chatID = 3;

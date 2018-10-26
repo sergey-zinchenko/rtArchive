@@ -3,6 +3,7 @@ package storage
 import (
 	"database/sql"
 	"github.com/kataras/iris/core/errors"
+	log "github.com/sirupsen/logrus"
 	"rtArchive/proto_msg"
 	"rtArchive/storage/queries"
 )
@@ -39,7 +40,7 @@ func (dbs *DBS) GetRoundTrip(id int64) (*proto_msg.RoundTrip, error) {
 		case "viber":
 			rt.Source = proto_msg.RoundTrip_viber
 		case "whatsapp":
-			rt.Source = proto_msg.RoundTrip_watsapp
+			rt.Source = proto_msg.RoundTrip_whatsapp
 		case "vk":
 			rt.Source = proto_msg.RoundTrip_vk
 		}
@@ -48,20 +49,21 @@ func (dbs *DBS) GetRoundTrip(id int64) (*proto_msg.RoundTrip, error) {
 }
 
 //SaveRoundTrip - func to save roundtrip in db
-func (dbs *DBS) SaveRoundTrip(in *proto_msg.RoundTrip) (*proto_msg.RoundTrip, error) {
+func (dbs *DBS) SaveRoundTrip(in *proto_msg.RoundTripWithoutID) (*proto_msg.RoundTrip, error) {
 	if in == nil {
 		return nil, errors.New("empty roundtrip")
 	}
-	var transaction = func(tx *sql.Tx, in *proto_msg.RoundTrip) (*proto_msg.RoundTrip, error) {
-		res, err := tx.Exec(queries.SaveRtQuery, in.Source, in.ChatID, in.UserName, in.Request, in.Response)
+	var transaction = func(tx *sql.Tx, in *proto_msg.RoundTripWithoutID) (*proto_msg.RoundTrip, error) {
+		var lastInsertID int64
+		err := tx.QueryRow(queries.SaveRtQuery, in.Source.String(), in.ChatID, in.UserName, in.Request, in.Response).Scan(&lastInsertID)
+		if err != nil {
+			log.Warn("save db err:", err)
+			return nil, err
+		}
 		if err != nil {
 			return nil, err
 		}
-		id, err := res.LastInsertId()
-		if err != nil {
-			return nil, err
-		}
-		rt, err := txGet(tx, id)
+		rt, err := txGet(tx, lastInsertID)
 		if err != nil {
 			return nil, err
 		}
@@ -153,7 +155,7 @@ func txGet(tx *sql.Tx, id int64) (*proto_msg.RoundTrip, error) {
 		case "viber":
 			rt.Source = proto_msg.RoundTrip_viber
 		case "whatsapp":
-			rt.Source = proto_msg.RoundTrip_watsapp
+			rt.Source = proto_msg.RoundTrip_whatsapp
 		case "vk":
 			rt.Source = proto_msg.RoundTrip_vk
 		}
