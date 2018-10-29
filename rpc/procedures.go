@@ -16,23 +16,23 @@ func (h *ProcedureHandler) Dbs(dbs *storage.DBS) {
 	h.dbs = dbs
 }
 
-func (h *ProcedureHandler) Save(ctx context.Context, in *protoMsg.RoundTripWithoutID) (*protoMsg.RoundTrip, error) {
-	rt, err := h.dbs.SaveRoundTrip(in)
+func (h *ProcedureHandler) SaveInDB(ctx context.Context, in *protoMsg.RoundTripData) (*protoMsg.RoundtripID, error) {
+	id, err := h.dbs.SaveRoundTrip(in)
 	if err != nil {
 		return nil, err
 	}
-	return rt, nil
+	return id, nil
 }
 
-func (h *ProcedureHandler) AddResponse(ctx context.Context, in *protoMsg.IDAndResponse) (*protoMsg.RoundTrip, error) {
-	rt, err := h.dbs.AddResponse(in.Id, in.Response)
+func (h *ProcedureHandler) AddResponseToDBEntry(ctx context.Context, in *protoMsg.IDAndResponse) (*protoMsg.Void, error) {
+	err := h.dbs.AddResponse(in.Id, in.Response)
 	if err != nil {
 		return nil, err
 	}
-	return rt, nil
+	return &protoMsg.Void{}, nil
 }
 
-func (h *ProcedureHandler) Get(ctx context.Context, in *protoMsg.RoundtripID) (*protoMsg.RoundTrip, error) {
+func (h *ProcedureHandler) GetRTFromDB(ctx context.Context, in *protoMsg.RoundtripID) (*protoMsg.RoundTrip, error) {
 	rt, err := h.dbs.GetRoundTrip(in.Id)
 	if err != nil {
 		return nil, err
