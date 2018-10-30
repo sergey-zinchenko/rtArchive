@@ -16,6 +16,7 @@ func (dbs *DBS) GetRoundTrip(id int64) (*proto_msg.RoundTrip, error) {
 	)
 	err := dbs.pgSQL.QueryRow(queries.GetRtQuery, id).Scan(&source, &chatID, &username, &request, &response)
 	if err != nil {
+		log.Error("get db err:", err)
 		return nil, err
 	}
 	if chatID.Valid {
@@ -55,7 +56,7 @@ func (dbs *DBS) SaveRoundTrip(in *proto_msg.RoundTripData) (*proto_msg.Roundtrip
 	var lastInsertID int64
 	err := dbs.pgSQL.QueryRow(queries.SaveRtQuery, in.Source.String(), in.ChatID, in.UserName, in.Request, in.Response).Scan(&lastInsertID)
 	if err != nil {
-		log.Warn("save db err:", err)
+		log.Error("save db err:", err)
 		return nil, err
 	}
 	if lastInsertID == 0 {
@@ -71,6 +72,7 @@ func (dbs *DBS) AddResponse(id int64, response string) error {
 	}
 	_, err := dbs.pgSQL.Exec(queries.UpdateResponseQuery, response, id)
 	if err != nil {
+		log.Error("update db err:", err)
 		return err
 	}
 	return nil
