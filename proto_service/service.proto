@@ -6,7 +6,7 @@ option go_package = "rtArchive/proto_service";
 import "proto_msg/msg.proto";
 
 service ArchiveService {
-    rpc Save(protoMsg.RoundTripWithoutID) returns(protoMsg.RoundTrip) {}
-    rpc AddResponse(protoMsg.IDAndResponse) returns(protoMsg.RoundTrip) {}
-    rpc Get(protoMsg.RoundtripID) returns(protoMsg.RoundTrip) {}
+    rpc SaveInDB(protoMsg.RoundTripData) returns(protoMsg.RoundtripID) {}
+    rpc AddResponseToDBEntry(protoMsg.IDAndResponse) returns(protoMsg.Void) {}
+    rpc GetRTFromDB(protoMsg.RoundtripID) returns(protoMsg.RoundTrip) {}
 }
