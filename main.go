@@ -1,9 +1,19 @@
 package main
 
 import (
-	"log"
+	log "github.com/sirupsen/logrus"
 	"rtArchive/app"
+	"rtArchive/config"
 )
+
+func init() {
+	config.LoadEnvironment()
+	if config.IsDevelopmentEnv() {
+		log.SetLevel(log.DebugLevel)
+	} else {
+		log.SetLevel(log.WarnLevel)
+	}
+}
 
 func main() {
 	a := app.NewApp()
@@ -11,5 +21,5 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	go a.ConnectGRPC()
+	a.ConnectGRPC()
 }

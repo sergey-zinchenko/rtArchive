@@ -2,15 +2,15 @@ syntax = "proto3";
 package protoMsg;
 option go_package = "rtArchive/proto_msg";
 
-message RoundTrip {
+message RoundTripData{
     enum Source {
         undef = 0;
         telegram = 1;
         fb = 2;
         viber = 3;
+        whatsapp = 4;
+        vk = 5;
     }
-
-    int64 id = 1;
     Source source = 2;
     string chatID = 3;
     string userName = 4;
@@ -18,6 +18,18 @@ message RoundTrip {
     string response = 6;
 }
 
-message IDMessage {
+message RoundTrip {
+    int64 id = 1;
+    RoundTripData data = 2;
+}
+
+message RoundtripID {
     int64 id = 1;
 }
+
+message IDAndResponse {
+    int64 id = 1;
+    string response = 2;
+}
+
+message Void{}

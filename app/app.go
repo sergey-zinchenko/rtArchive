@@ -1,8 +1,9 @@
 package app
 
 import (
+	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
-	"log"
+	"google.golang.org/grpc/reflection"
 	"net"
 	"rtArchive/config"
 	"rtArchive/proto_service"
@@ -14,12 +15,15 @@ type (
 	//App structure - connects databases with the middleware and handlers of router
 	App struct {
 		dbs *storage.DBS
-		//admin *admingrpc.AdminServiceServer
+		rpc *rpc.ProcedureHandler
 	}
 )
 
-func NewApp() *App {
-	return &App{}
+//NewApp - make new app with dbs
+func NewApp() (a *App) {
+	a = new(App)
+	a.dbs = &storage.DBS{}
+	return a
 }
 
 func (a *App) ConnectDB() error {
@@ -27,9 +31,14 @@ func (a *App) ConnectDB() error {
 	if err != nil {
 		return err
 	}
+	if err := a.dbs.CheckTables(); err != nil {
+		return err
+	}
+	return nil
 }
 
 func (a *App) ConnectGRPC() {
+	log.Warn("connect to grpc")
 	lis, err := net.Listen(config.GRPCNetwork, config.GRPCPort)
 	if err != nil {
 		log.Fatal(err.Error())
@@ -37,4 +46,14 @@ func (a *App) ConnectGRPC() {
 	s := grpc.NewServer()
 	serv := rpc.ProcedureHandler{}
 	proto_service.RegisterArchiveServiceServer(s, &serv)
+	reflection.Register(s)
+	serv.Dbs(a.dbs)
+	a.setProcedureHandler(&serv)
+	if err := s.Serve(lis); err != nil {
+		log.Fatal(err.Error())
+	}
+}
+
+func (a *App) setProcedureHandler(h *rpc.ProcedureHandler) {
+	a.rpc = h
 }
